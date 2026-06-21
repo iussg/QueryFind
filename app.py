@@ -87,7 +87,41 @@ with col_main:
     )
 
     submit = st.button("🔍 Run Query", type="primary")
+    # Restore last result if page reruns (e.g. download button clicked)
+    if not submit and st.session_state.get('last_result') is not None:
+        result = st.session_state.last_result
+        question = st.session_state.last_question
+        sql = st.session_state.last_sql
+        explanation = st.session_state.last_explanation
+        df = result['dataframe']
 
+        conf_map = {1: "🟢 High Confidence", 2: "🟡 Medium Confidence", 3: "🔴 Low Confidence"}
+        st.caption(conf_map.get(result['attempts'], "🟢 High Confidence"))
+
+        tab1, tab2, tab3, tab4 = st.tabs(["📊 Chart", "📋 Table", "💬 Explanation", "🔍 SQL"])
+        with tab1:
+            chart_engine.render_result(df, question, title=question[:60])
+        with tab2:
+            st.dataframe(df, use_container_width=True)
+            st.caption(f"{len(df)} rows returned")
+            from utils.export import ExportManager
+            export = ExportManager()
+            filename = export.get_filename(question)
+            col_csv, col_excel = st.columns(2)
+            with col_csv:
+                st.download_button("📥 Download CSV", export.to_csv(df),
+                                   file_name=f"{filename}.csv", mime="text/csv")
+            with col_excel:
+                st.download_button("📊 Download Excel", export.to_excel(df, question, sql),
+                                   file_name=f"{filename}.xlsx",
+                                   mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        with tab3:
+            st.markdown(f"""
+                        <div style="background-color:#1e3a5f;padding:16px;border-radius:8px;color:white;font-size:15px;line-height:1.6;">
+                        {explanation}
+                        </div>""", unsafe_allow_html=True)
+        with tab4:
+            st.code(explainer.format_sql_display(sql), language='sql')
     if submit and question.strip():
         history = session.get_last_n_exchanges(3)
 
@@ -100,7 +134,10 @@ with col_main:
         if result['success']:
             df = result['dataframe']
             sql = result['sql']
-
+            # Save to session state for persistence
+            st.session_state.last_result = result
+            st.session_state.last_question = question
+            st.session_state.last_sql = sql
             conf_map = {1: "🟢 High Confidence", 2: "🟡 Medium Confidence", 3: "🔴 Low Confidence"}
             st.caption(conf_map.get(result['attempts'], "🟢 High Confidence"))
 
@@ -112,13 +149,31 @@ with col_main:
             with tab2:
                 st.dataframe(df, use_container_width=True)
                 st.caption(f"{len(df)} rows returned")
-                csv = df.to_csv(index=False).encode('utf-8')
-                st.download_button("📥 Download CSV", csv,
-                                   file_name="querymind_results.csv", mime="text/csv")
+
+                from utils.export import ExportManager
+                export = ExportManager()
+                filename = export.get_filename(question)
+
+                col_csv, col_excel = st.columns(2)
+                with col_csv:
+                    st.download_button(
+                        "📥 Download CSV",
+                        export.to_csv(df),
+                        file_name=f"{filename}.csv",
+                        mime="text/csv"
+                    )
+                with col_excel:
+                    st.download_button(
+                        "📊 Download Excel",
+                        export.to_excel(df, question, sql),
+                        file_name=f"{filename}.xlsx",
+                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    )
 
             with tab3:
                 with st.spinner("Generating explanation..."):
                     explanation = explainer.explain(question, sql, df)
+                st.session_state.last_explanation = explanation
                 st.markdown(f"""
                             <div style="background-color:#1e3a5f;padding:16px;border-radius:8px;color:white;font-size:15px;line-height:1.6;">
                             {explanation}

@@ -55,6 +55,7 @@ STRICT RULES:
                 context_lines.append(f"SQL used: {h.get('sql','')}")
                 context_lines.append("---")
             context = '\n'.join(context_lines)
+            context += "\nIMPORTANT: The user may use 'them', 'those', 'it', 'now filter', 'sort by', 'add' referring to the previous query. Modify the previous SQL accordingly.\n"
 
         user_message = f"{context}\nQuestion: {user_question}\nSQL Query:"
 
@@ -62,11 +63,12 @@ STRICT RULES:
 
     def build_explanation_prompt(self, user_question: str, sql: str, results_summary: str) -> tuple:
         system_prompt = """You are a business intelligence assistant explaining data results to non-technical users.
-Your explanations must be:
+Rules:
 - Maximum 3 sentences
-- In simple business language, no technical jargon
-- Include the key numbers from the results
-- Start directly with the insight, not with "The query..." or "The SQL..."
+- Simple business language, no technical jargon
+- Write numbers WITHOUT spaces after commas. Write 6,814,368 not 6, 814, 368
+- Do not use any markdown formatting, asterisks, or underscores
+- Start directly with the insight
 """
         user_message = f"""Question asked: {user_question}
 SQL that was run: {sql}

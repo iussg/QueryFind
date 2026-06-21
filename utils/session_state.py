@@ -13,6 +13,14 @@ class SessionManager:
             st.session_state.schema_string = None
         if 'db_path' not in st.session_state:
             st.session_state.db_path = None
+        if 'last_result' not in st.session_state:
+            st.session_state.last_result = None
+        if 'last_question' not in st.session_state:
+            st.session_state.last_question = ""
+        if 'last_sql' not in st.session_state:
+            st.session_state.last_sql = ""
+        if 'last_explanation' not in st.session_state:
+            st.session_state.last_explanation = ""
 
     def add_to_history(self, question, sql, df, explanation, success=True):
         st.session_state.conversation_history.append({
