@@ -59,7 +59,10 @@ def init_engine():
     explainer = ResultExplainer(llm, builder)
     retry = RetryHandler(llm, builder, validator, executor)
     return schema_str, schema_dict, llm, builder, validator, executor, explainer, retry
-
+# Auto-create database if it doesn't exist (needed for Streamlit Cloud)
+if not os.path.exists("database/ecommerce.db"):
+    import subprocess
+    subprocess.run(["python", "database/setup_db.py"])
 schema_str, schema_dict, llm, builder, validator, executor, explainer, retry_handler = init_engine()
 session = SessionManager()
 session.initialize()

@@ -10,7 +10,11 @@ class LLMError(Exception):
 
 class GroqClient:
     def __init__(self, model="llama-3.3-70b-versatile", temperature=0.1, max_tokens=1000):
-        api_key = os.getenv("GROQ_API_KEY")
+        try:
+            import streamlit as st
+            api_key = st.secrets.get("GROQ_API_KEY") or os.getenv("GROQ_API_KEY")
+        except:
+            api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
             raise LLMError("GROQ_API_KEY not found in .env file")
         self.client = Groq(api_key=api_key)
