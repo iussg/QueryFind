@@ -15,6 +15,32 @@ from ui.components import ChartEngine
 from ui.schema_sidebar import SchemaExplorer
 from ui.history import HistoryPanel
 
+def generate_suggestions(question: str, sql: str, df, llm_client) -> list:
+    try:
+        summary = f"columns: {list(df.columns)}, rows: {len(df)}"
+        prompt = f"""The user asked: "{question}" and got results with {summary}.
+Suggest 3 short follow-up business questions they might want to ask next.
+Return ONLY a JSON array of 3 strings. Example: ["question 1", "question 2", "question 3"]
+No explanation, no markdown, just the JSON array."""
+        
+        response = llm_client.generate(
+            "You are a business analyst suggesting follow-up questions. Return only a JSON array.",
+            prompt
+        )
+        # Clean and parse
+        response = response.strip()
+        if response.startswith('['):
+            import json
+            suggestions = json.loads(response)
+            return suggestions[:3]
+        return []
+    except:
+        return [
+            "Show me a breakdown by city",
+            "What is the trend over the last 6 months?",
+            "Which customers are responsible for most of this?"
+        ]
+
 st.set_page_config(page_title="QueryMind", page_icon="🔍", layout="wide")
 
 @st.cache_resource
@@ -122,9 +148,19 @@ with col_main:
                         </div>""", unsafe_allow_html=True)
         with tab4:
             st.code(explainer.format_sql_display(sql), language='sql')
+
+        if st.session_state.get('last_suggestions'):
+            st.markdown("#### 💡 You might also want to ask:")
+            sug_cols = st.columns(3)
+            for i, (col, sug) in enumerate(zip(sug_cols, st.session_state.last_suggestions)):
+                with col:
+                    if st.button(sug, key=f"sug_{i}"):
+                        st.session_state.chip_question = sug
+                        st.session_state.last_result = None
+                        st.rerun()
+
     if submit and question.strip():
         history = session.get_last_n_exchanges(3)
-
         with st.spinner("Thinking..."):
             result = retry_handler.execute_with_retry(question.strip(), history)
 
@@ -138,6 +174,11 @@ with col_main:
             st.session_state.last_result = result
             st.session_state.last_question = question
             st.session_state.last_sql = sql
+
+            # Generate suggestions
+            with st.spinner("Generating follow-up suggestions..."):
+                suggestions = generate_suggestions(question, sql, df, llm)
+            st.session_state.last_suggestions = suggestions
             conf_map = {1: "🟢 High Confidence", 2: "🟡 Medium Confidence", 3: "🔴 Low Confidence"}
             st.caption(conf_map.get(result['attempts'], "🟢 High Confidence"))
 
@@ -184,6 +225,16 @@ with col_main:
                 st.code(explainer.format_sql_display(sql), language='sql')
 
             session.add_to_history(question, sql, df, explanation, success=True)
+
+            if st.session_state.get('last_suggestions'):
+                st.markdown("#### 💡 You might also want to ask:")
+                sug_cols = st.columns(3)
+                for i, (col, sug) in enumerate(zip(sug_cols, st.session_state.last_suggestions)):
+                    with col:
+                        if st.button(sug, key=f"sug_new_{i}"):
+                            st.session_state.chip_question = sug
+                            st.session_state.last_result = None
+                            st.rerun()
 
         else:
             st.error(f"❌ {result['error']}")

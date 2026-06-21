@@ -21,6 +21,8 @@ class SessionManager:
             st.session_state.last_sql = ""
         if 'last_explanation' not in st.session_state:
             st.session_state.last_explanation = ""
+        if 'last_suggestions' not in st.session_state:
+            st.session_state.last_suggestions = []
 
     def add_to_history(self, question, sql, df, explanation, success=True):
         st.session_state.conversation_history.append({
