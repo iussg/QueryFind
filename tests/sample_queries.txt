@@ -1,0 +1,30 @@
+How many customers do we have?
+How many orders are in delivered status?
+What is the total number of products?
+Show me all customers from Mumbai
+How many premium customers do we have?
+Show the 10 most expensive products
+How many orders were cancelled?
+What is our cheapest product?
+Show all product categories
+What is the average order value?
+Which city has the most customers?
+Show total revenue by payment method
+What are the top 5 selling products by quantity?
+How many orders were placed in January 2025?
+What is the total revenue from delivered orders?
+Which products are out of stock?
+Show orders placed in the last 30 days
+Show me top 5 customers by total spending
+What is revenue breakdown by product category?
+Which customers have never placed an order?
+Which cities have the highest average order value?
+Show monthly revenue trend for 2025
+Which products generate the most profit?
+What is the return rate by product category?
+What percentage of orders were cancelled?
+Show me customers who signed up in 2024
+Which payment method generates the most revenue?
+Show products with less than 10 items in stock
+How many orders does each customer have on average?
+What is the total discount given across all orders?

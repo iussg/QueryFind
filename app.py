@@ -119,7 +119,11 @@ with col_main:
             with tab3:
                 with st.spinner("Generating explanation..."):
                     explanation = explainer.explain(question, sql, df)
-                st.info(explanation)
+                st.markdown(f"""
+                            <div style="background-color:#1e3a5f;padding:16px;border-radius:8px;color:white;font-size:15px;line-height:1.6;">
+                            {explanation}
+                            </div>
+                            """, unsafe_allow_html=True)
 
             with tab4:
                 st.code(explainer.format_sql_display(sql), language='sql')

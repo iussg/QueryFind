@@ -19,10 +19,19 @@ class ResultExplainer:
 
         summary = self.executor.get_result_summary(df)
         system_prompt, user_message = self.prompt_builder.build_explanation_prompt(
-            question, sql, summary
+            system_prompt = """You are a business intelligence assistant explaining data results to non-technical users.
+                                Rules:
+                                - Maximum 3 sentences
+                                - Simple business language, no technical jargon
+                                - Write numbers WITHOUT spaces after commas. Write 6,814,368 not 6, 814, 368
+                                - Do not use any markdown formatting, asterisks, or underscores
+                                - Start directly with the insight
+                            """
         )
         try:
-            return self.llm.generate(system_prompt, user_message)
+            result = self.llm.generate(system_prompt, user_message)
+            # Prevent markdown italic rendering
+            return result.replace('*', '').replace('_', ' ')
         except Exception as e:
             return f"Results retrieved successfully. {summary}"
 
