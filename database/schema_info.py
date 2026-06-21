@@ -57,6 +57,44 @@ def get_sample_values(table_name, column_name, limit=5):
             f"SELECT DISTINCT {column_name} FROM {table_name} LIMIT {limit}"
         ))
         return [row[0] for row in result.fetchall()]
+def get_schema_for_db(db_path: str) -> tuple:
+    """Returns (schema_string, schema_dict) for any SQLite database path."""
+    engine = create_engine(f'sqlite:///{db_path}')
+    inspector = inspect(engine)
+    schema = {}
+    for table in inspector.get_table_names():
+        columns = []
+        for col in inspector.get_columns(table):
+            columns.append({
+                'name': col['name'],
+                'type': str(col['type']),
+                'primary_key': col.get('primary_key', False)
+            })
+        fks = []
+        for fk in inspector.get_foreign_keys(table):
+            fks.append({
+                'column': fk['constrained_columns'][0],
+                'references': f"{fk['referred_table']}.{fk['referred_columns'][0]}"
+            })
+        schema[table] = {'columns': columns, 'foreign_keys': fks}
 
+    # Build string
+    lines = []
+    relationships = []
+    for table, info in schema.items():
+        col_parts = []
+        for col in info['columns']:
+            pk = ', PK' if col['primary_key'] else ''
+            col_parts.append(f"{col['name']} ({col['type']}{pk})")
+        lines.append(f"TABLE: {table}")
+        lines.append(f"COLUMNS: {', '.join(col_parts)}")
+        lines.append("")
+        for fk in info['foreign_keys']:
+            relationships.append(f"- {table}.{fk['column']} → {fk['references']}")
+    if relationships:
+        lines.append("RELATIONSHIPS:")
+        lines.extend(relationships)
+
+    return '\n'.join(lines), schema
 if __name__ == '__main__':
     print(get_schema_string())

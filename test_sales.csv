@@ -1,0 +1,101 @@
+order_id,customer_name,product_name,category,quantity,unit_price,discount_percent,order_date,city,payment_method,status
+1,Aarav Sharma,Aashirvaad Atta 10kg,Groceries,3,520,5,2024-08-16,Delhi,UPI,cancelled
+2,Rohan Gupta,Lakme Kajal,Beauty,5,180,15,2024-02-02,Mumbai,UPI,delivered
+3,Nikhil Bansal,Smart Watch,Electronics,5,3499,0,2025-07-28,Delhi,Net Banking,delivered
+4,Aditya Kulkarni,Wall Clock,Home,3,899,0,2026-02-16,Delhi,Net Banking,pending
+5,Vikram Singh,Cotton T-Shirt,Clothing,2,499,10,2024-04-14,Mumbai,Net Banking,delivered
+6,Kavya Menon,Hoodie,Clothing,5,1299,10,2026-04-06,Mumbai,Net Banking,cancelled
+7,Harsh Jain,Aashirvaad Atta 10kg,Groceries,1,520,10,2026-04-29,Pune,COD,cancelled
+8,Rohan Gupta,WiFi Router,Electronics,1,2299,5,2026-03-02,Bangalore,UPI,delivered
+9,Harsh Jain,Aashirvaad Atta 10kg,Groceries,3,520,15,2025-10-12,Bangalore,Credit Card,pending
+10,Karan Mehta,Hoodie,Clothing,3,1299,0,2025-09-15,Delhi,Credit Card,delivered
+11,Harsh Jain,Wall Clock,Home,3,899,5,2025-12-02,Bangalore,UPI,delivered
+12,Arjun Kapoor,Surf Excel 1kg,Groceries,4,240,10,2024-03-08,Delhi,COD,delivered
+13,Harsh Jain,Dove Shampoo 650ml,Beauty,4,420,5,2024-09-28,Delhi,Credit Card,cancelled
+14,Ishita Sinha,Lakme Kajal,Beauty,3,180,15,2025-08-20,Chennai,COD,delivered
+15,Nikhil Bansal,Wireless Mouse,Electronics,4,799,0,2026-02-12,Mumbai,UPI,delivered
+16,Meera Joshi,Bluetooth Speaker,Electronics,5,2499,0,2025-01-29,Chennai,Net Banking,cancelled
+17,Ishita Sinha,Cotton T-Shirt,Clothing,1,499,0,2025-11-29,Pune,COD,cancelled
+18,Neha Patel,Women's Kurti,Clothing,3,999,15,2024-06-10,Chennai,UPI,cancelled
+19,Nikhil Bansal,Cotton T-Shirt,Clothing,2,499,0,2025-10-02,Bangalore,Credit Card,delivered
+20,Ananya Iyer,Hoodie,Clothing,5,1299,0,2025-09-05,Bangalore,Net Banking,delivered
+21,Kavya Menon,Aashirvaad Atta 10kg,Groceries,3,520,5,2024-02-29,Delhi,UPI,delivered
+22,Rohan Gupta,Dove Shampoo 650ml,Beauty,5,420,5,2024-05-11,Chennai,Credit Card,pending
+23,Ritika Chawla,Face Wash 100ml,Beauty,4,199,5,2025-07-06,Delhi,COD,pending
+24,Siddharth Rao,Hoodie,Clothing,5,1299,15,2024-05-03,Delhi,Credit Card,delivered
+25,Aarav Sharma,Women's Kurti,Clothing,5,999,5,2025-08-25,Delhi,UPI,delivered
+26,Sneha Nair,Surf Excel 1kg,Groceries,1,240,0,2026-05-30,Bangalore,UPI,cancelled
+27,Raj Malhotra,Smart Watch,Electronics,4,3499,5,2025-07-06,Delhi,Net Banking,delivered
+28,Meera Joshi,Dove Shampoo 650ml,Beauty,2,420,0,2024-04-09,Chennai,COD,pending
+29,Siddharth Rao,Electric Kettle,Home,1,1499,0,2024-03-03,Chennai,COD,delivered
+30,Karan Mehta,Smart Watch,Electronics,2,3499,15,2024-05-23,Chennai,Credit Card,pending
+31,Sneha Nair,Wall Clock,Home,1,899,15,2026-04-07,Pune,UPI,delivered
+32,Aarav Sharma,Lakme Kajal,Beauty,1,180,5,2024-06-19,Chennai,Net Banking,pending
+33,Harsh Jain,WiFi Router,Electronics,1,2299,5,2025-01-23,Mumbai,Net Banking,pending
+34,Pooja Reddy,Wall Clock,Home,4,899,15,2024-06-07,Delhi,COD,delivered
+35,Aditya Kulkarni,Surf Excel 1kg,Groceries,5,240,0,2026-02-04,Bangalore,UPI,delivered
+36,Nikhil Bansal,Dove Shampoo 650ml,Beauty,5,420,5,2024-02-28,Pune,UPI,delivered
+37,Ritika Chawla,Toor Dal 1kg,Groceries,1,180,5,2025-02-17,Mumbai,Credit Card,cancelled
+38,Ritika Chawla,Surf Excel 1kg,Groceries,1,240,15,2025-11-04,Pune,COD,pending
+39,Arjun Kapoor,WiFi Router,Electronics,2,2299,10,2025-02-09,Delhi,COD,pending
+40,Rohan Gupta,Women's Kurti,Clothing,1,999,15,2025-09-28,Pune,UPI,delivered
+41,Karan Mehta,Lakme Kajal,Beauty,5,180,10,2024-05-15,Bangalore,UPI,delivered
+42,Pooja Reddy,Hoodie,Clothing,2,1299,15,2026-05-03,Pune,COD,cancelled
+43,Aarav Sharma,Face Wash 100ml,Beauty,5,199,10,2025-11-10,Mumbai,Credit Card,pending
+44,Neha Patel,Aashirvaad Atta 10kg,Groceries,5,520,5,2024-10-05,Bangalore,Credit Card,cancelled
+45,Karan Mehta,Women's Kurti,Clothing,3,999,15,2024-09-14,Mumbai,UPI,cancelled
+46,Raj Malhotra,Electric Kettle,Home,1,1499,0,2024-12-07,Delhi,COD,delivered
+47,Ishita Sinha,Wall Clock,Home,4,899,0,2024-04-24,Mumbai,Credit Card,cancelled
+48,Kavya Menon,Surf Excel 1kg,Groceries,5,240,5,2025-03-16,Delhi,UPI,pending
+49,Priya Verma,Hoodie,Clothing,3,1299,5,2025-11-29,Delhi,UPI,pending
+50,Meera Joshi,Lakme Kajal,Beauty,5,180,5,2024-08-30,Delhi,Credit Card,pending
+51,Ananya Iyer,Basmati Rice 5kg,Groceries,3,650,15,2026-04-01,Delhi,COD,delivered
+52,Harsh Jain,Aashirvaad Atta 10kg,Groceries,1,520,15,2024-08-15,Delhi,Net Banking,pending
+53,Sneha Nair,Men's Jeans,Clothing,2,1299,0,2025-11-06,Delhi,Net Banking,pending
+54,Rohan Gupta,Cotton T-Shirt,Clothing,3,499,10,2025-10-18,Pune,Net Banking,cancelled
+55,Arjun Kapoor,Lakme Kajal,Beauty,1,180,0,2024-09-24,Delhi,COD,delivered
+56,Ritika Chawla,Aashirvaad Atta 10kg,Groceries,4,520,10,2026-01-16,Bangalore,Net Banking,cancelled
+57,Neha Patel,Face Wash 100ml,Beauty,4,199,5,2024-09-17,Mumbai,Net Banking,delivered
+58,Ishita Sinha,Face Wash 100ml,Beauty,2,199,10,2025-03-17,Mumbai,COD,cancelled
+59,Neha Patel,Women's Kurti,Clothing,3,999,10,2025-11-13,Chennai,COD,pending
+60,Ishita Sinha,Men's Jeans,Clothing,2,1299,5,2025-03-06,Chennai,Credit Card,cancelled
+61,Harsh Jain,Men's Jeans,Clothing,5,1299,0,2024-11-07,Bangalore,Credit Card,pending
+62,Siddharth Rao,Women's Kurti,Clothing,4,999,15,2025-11-22,Delhi,Net Banking,cancelled
+63,Rohan Gupta,Bluetooth Speaker,Electronics,3,2499,10,2024-04-05,Delhi,COD,delivered
+64,Vikram Singh,WiFi Router,Electronics,1,2299,0,2024-09-07,Chennai,UPI,pending
+65,Aditya Kulkarni,Electric Kettle,Home,2,1499,15,2025-05-21,Chennai,Credit Card,delivered
+66,Neha Patel,Basmati Rice 5kg,Groceries,4,650,5,2024-06-29,Pune,Net Banking,delivered
+67,Sneha Nair,Lakme Kajal,Beauty,1,180,15,2024-05-16,Chennai,COD,pending
+68,Meera Joshi,Face Wash 100ml,Beauty,5,199,15,2024-06-11,Chennai,Net Banking,pending
+69,Raj Malhotra,Smart Watch,Electronics,5,3499,15,2025-10-03,Delhi,COD,pending
+70,Pooja Reddy,Toor Dal 1kg,Groceries,2,180,10,2024-12-09,Bangalore,UPI,delivered
+71,Sneha Nair,Wireless Mouse,Electronics,4,799,5,2025-12-24,Delhi,UPI,pending
+72,Arjun Kapoor,Electric Kettle,Home,5,1499,15,2025-03-01,Mumbai,Credit Card,pending
+73,Aditya Kulkarni,Pressure Cooker 5L,Home,1,1899,15,2025-05-03,Mumbai,COD,pending
+74,Meera Joshi,Pressure Cooker 5L,Home,5,1899,5,2025-05-14,Delhi,COD,pending
+75,Aarav Sharma,Dove Shampoo 650ml,Beauty,4,420,10,2025-11-15,Chennai,Credit Card,pending
+76,Ritika Chawla,Wireless Mouse,Electronics,5,799,0,2025-02-07,Pune,UPI,delivered
+77,Vikram Singh,Electric Kettle,Home,4,1499,5,2024-02-21,Bangalore,Net Banking,pending
+78,Siddharth Rao,WiFi Router,Electronics,3,2299,10,2026-02-18,Chennai,COD,pending
+79,Rohan Gupta,Cotton T-Shirt,Clothing,4,499,0,2026-02-06,Pune,UPI,pending
+80,Rohan Gupta,Smart Watch,Electronics,1,3499,0,2024-09-10,Delhi,UPI,cancelled
+81,Sneha Nair,Wireless Mouse,Electronics,2,799,15,2025-11-16,Mumbai,Credit Card,pending
+82,Kavya Menon,Cotton T-Shirt,Clothing,2,499,0,2026-03-07,Delhi,COD,delivered
+83,Pooja Reddy,Basmati Rice 5kg,Groceries,5,650,15,2025-02-10,Delhi,UPI,cancelled
+84,Neha Patel,Smart Watch,Electronics,3,3499,0,2026-03-26,Pune,UPI,pending
+85,Meera Joshi,Lakme Kajal,Beauty,3,180,0,2025-06-02,Bangalore,UPI,pending
+86,Neha Patel,Dove Shampoo 650ml,Beauty,4,420,10,2025-10-12,Chennai,Credit Card,pending
+87,Nikhil Bansal,Bluetooth Speaker,Electronics,3,2499,15,2025-04-21,Chennai,COD,pending
+88,Rohan Gupta,Smart Watch,Electronics,3,3499,15,2024-09-06,Chennai,Net Banking,pending
+89,Divya Agarwal,Basmati Rice 5kg,Groceries,3,650,5,2025-05-14,Delhi,COD,pending
+90,Raj Malhotra,Women's Kurti,Clothing,5,999,10,2025-07-23,Mumbai,Credit Card,delivered
+91,Meera Joshi,Smart Watch,Electronics,4,3499,5,2025-12-08,Chennai,Net Banking,pending
+92,Rohan Gupta,Basmati Rice 5kg,Groceries,3,650,5,2025-02-18,Delhi,COD,cancelled
+93,Divya Agarwal,Hoodie,Clothing,5,1299,10,2025-03-11,Pune,COD,pending
+94,Raj Malhotra,Wall Clock,Home,3,899,10,2024-08-24,Mumbai,Credit Card,pending
+95,Ishita Sinha,Aashirvaad Atta 10kg,Groceries,2,520,5,2024-08-09,Chennai,COD,cancelled
+96,Ritika Chawla,Face Wash 100ml,Beauty,3,199,0,2026-05-02,Delhi,COD,delivered
+97,Ananya Iyer,Hoodie,Clothing,3,1299,0,2025-12-26,Pune,Credit Card,pending
+98,Priya Verma,Surf Excel 1kg,Groceries,5,240,10,2025-12-15,Delhi,Net Banking,delivered
+99,Aditya Kulkarni,Basmati Rice 5kg,Groceries,3,650,15,2025-05-05,Chennai,COD,delivered
+100,Raj Malhotra,Surf Excel 1kg,Groceries,4,240,0,2026-04-21,Mumbai,Net Banking,pending

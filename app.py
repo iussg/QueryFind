@@ -1,5 +1,7 @@
 import sys
 import os
+from database.upload_handler import UploadHandler
+from database.schema_info import get_schema_for_db
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import streamlit as st
@@ -42,7 +44,10 @@ No explanation, no markdown, just the JSON array."""
         ]
 
 st.set_page_config(page_title="QueryMind", page_icon="🔍", layout="wide")
-
+def get_active_schema():
+    if st.session_state.get('using_uploaded_db') and st.session_state.get('upload_db_path'):
+        return st.session_state.upload_schema_str, st.session_state.upload_schema_dict, st.session_state.upload_db_path
+    return schema_str, schema_dict, None
 @st.cache_resource
 def init_engine():
     schema_str = get_schema_string()
@@ -74,7 +79,74 @@ def handle_rerun(question):
 st.title("QueryMind 🔍")
 st.markdown("**Ask your e-commerce database anything, in plain English.**")
 st.divider()
+# Data Source Selector
+st.markdown("### 📂 Data Source")
+src_tab1, src_tab2 = st.tabs(["🏪 Sample E-commerce DB", "📤 Upload Your Own Data"])
 
+with src_tab1:
+    if not st.session_state.get('using_uploaded_db', False):
+        st.success("✅ Using sample e-commerce database — 500 customers, 1000 orders, 52 products")
+    else:
+        st.success(f"✅ {st.session_state.get('upload_success_msg', 'File loaded successfully')}")
+        st.info(f"Currently using: {st.session_state.get('uploaded_db_name', 'uploaded file')}")
+        if st.button("Switch back to Sample DB"):
+            st.session_state.using_uploaded_db = False
+            st.session_state.last_result = None
+            st.session_state.upload_success_msg = ""
+            session.clear_history()
+            st.rerun()
+
+with src_tab2:
+    upload_handler = UploadHandler()
+    uploaded_file = st.file_uploader(
+        "Upload a CSV or SQLite database file",
+        type=['csv', 'db', 'sqlite'],
+        help="Maximum 50MB. CSV files will be auto-converted to a queryable database."
+    )
+    if uploaded_file:
+        is_valid, err = upload_handler.validate_file(uploaded_file)
+        if not is_valid:
+            st.error(err)
+        else:
+            if st.button("Load This File"):
+                if 'upload_session_id' not in st.session_state:
+                    import uuid
+                    st.session_state.upload_session_id = str(uuid.uuid4())[:8]
+                session_id = st.session_state.upload_session_id
+                ext = uploaded_file.name.split('.')[-1].lower()
+                with st.spinner(f"Processing {uploaded_file.name}..."):
+                    if ext == 'csv':
+                        db_path, table_name, rows, cols = upload_handler.process_csv(uploaded_file, session_id)
+                        if db_path:
+                            schema_s, schema_d = get_schema_for_db(db_path)
+                            file_name = uploaded_file.name
+                            st.session_state.using_uploaded_db = True
+                            st.session_state.upload_db_path = db_path
+                            st.session_state.upload_schema_str = schema_s
+                            st.session_state.upload_schema_dict = schema_d
+                            st.session_state.uploaded_db_name = file_name
+                            st.session_state.last_result = None
+                            session.clear_history()
+                            st.session_state.upload_success_msg = f"Loaded {file_name} — {rows} rows, {cols} columns"
+                            st.success(f"✅ {st.session_state.upload_success_msg}")
+                            import time
+                            time.sleep(1.5)
+                            st.rerun()
+                    else:
+                        db_path, num_tables = upload_handler.process_sqlite(uploaded_file, session_id)
+                        if db_path:
+                            schema_s, schema_d = get_schema_for_db(db_path)
+                            st.session_state.using_uploaded_db = True
+                            st.session_state.upload_db_path = db_path
+                            st.session_state.upload_schema_str = schema_s
+                            st.session_state.upload_schema_dict = schema_d
+                            st.session_state.uploaded_db_name = uploaded_file.name
+                            st.session_state.last_result = None
+                            session.clear_history()
+                            st.success(f"Loaded {uploaded_file.name} — {num_tables} tables detected")
+                            st.rerun()
+
+st.divider()
 # Stats bar
 s = session.get_stats()
 c1, c2, c3 = st.columns(3)
@@ -162,7 +234,12 @@ with col_main:
     if submit and question.strip():
         history = session.get_last_n_exchanges(3)
         with st.spinner("Thinking..."):
-            result = retry_handler.execute_with_retry(question.strip(), history)
+            active_schema_str, active_schema_dict, active_db_path = get_active_schema()
+            active_builder = PromptBuilder(active_schema_str)
+            active_executor = QueryExecutor(active_db_path) if active_db_path else executor
+            active_explainer = ResultExplainer(llm, active_builder)
+            active_retry = RetryHandler(llm, active_builder, validator, active_executor)
+            result = active_retry.execute_with_retry(question.strip(), history)
 
         if result['attempts'] > 1:
             st.info(f"Needed {result['attempts']} attempts to get this right")
@@ -213,7 +290,7 @@ with col_main:
 
             with tab3:
                 with st.spinner("Generating explanation..."):
-                    explanation = explainer.explain(question, sql, df)
+                    explanation = active_explainer.explain(question, sql, df)
                 st.session_state.last_explanation = explanation
                 st.markdown(f"""
                             <div style="background-color:#1e3a5f;padding:16px;border-radius:8px;color:white;font-size:15px;line-height:1.6;">
@@ -222,7 +299,7 @@ with col_main:
                             """, unsafe_allow_html=True)
 
             with tab4:
-                st.code(explainer.format_sql_display(sql), language='sql')
+                st.code(active_explainer.format_sql_display(sql), language='sql')
 
             session.add_to_history(question, sql, df, explanation, success=True)
 
