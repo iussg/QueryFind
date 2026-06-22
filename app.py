@@ -203,7 +203,7 @@ with col_main:
         with tab1:
             chart_engine.render_result(df, question, title=question[:60])
         with tab2:
-            st.dataframe(df, use_container_width=True)
+            st.dataframe(df, width='stretch')
             st.caption(f"{len(df)} rows returned")
             from utils.export import ExportManager
             export = ExportManager()
@@ -268,7 +268,7 @@ with col_main:
                 chart_engine.render_result(df, question, title=question[:60])
 
             with tab2:
-                st.dataframe(df, use_container_width=True)
+                st.dataframe(df, width='stretch')
                 st.caption(f"{len(df)} rows returned")
 
                 from utils.export import ExportManager

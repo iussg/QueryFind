@@ -58,19 +58,19 @@ class ChartEngine:
                              text=y_col)
                 fig.update_traces(texttemplate='%{text:,.0f}', textposition='outside')
             fig.update_layout(showlegend=False, coloraxis_showscale=False)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
 
         elif chart_type == 'line' and numeric_cols:
             x_col = df.columns[0]
             y_col = numeric_cols[0]
             fig = px.line(df, x=x_col, y=y_col, title=title, markers=True)
             fig.update_layout(showlegend=False)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
 
         elif chart_type == 'pie' and text_cols and numeric_cols:
             fig = px.pie(df, names=text_cols[0], values=numeric_cols[0], title=title)
             fig.update_traces(textposition='inside', textinfo='percent+label')
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
 
         else:
             st.dataframe(df, use_container_width=True)

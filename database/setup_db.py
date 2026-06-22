@@ -3,6 +3,9 @@ import random
 from datetime import date, timedelta
 from faker import Faker
 from sqlalchemy import create_engine, text
+import subprocess
+import sys
+subprocess.check_call([sys.executable, "-m", "pip", "install", "faker"])
 
 fake = Faker('en_IN')
 random.seed(42)
